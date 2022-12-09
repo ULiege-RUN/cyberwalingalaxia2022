@@ -203,6 +203,7 @@
         <article role="main">
           <div class="section" id="part-4-advanced-dynamic-analysis">
 <h1>Part 4 – Advanced Dynamic Analysis<a class="headerlink" href="#part-4-advanced-dynamic-analysis" title="Permalink to this heading">#</a></h1>
+<hr class="docutils" />
 <p>In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior without executing them.</p>
 <p>In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger <cite>GDB</cite>). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).</p>
 <div class="section" id="the-gnu-project-debugger">
