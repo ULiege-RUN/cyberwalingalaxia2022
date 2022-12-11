@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="&lt;no title&gt;" href="../misc/index.html" /><link rel="prev" title="Part 3 – Advanced Static Analysis" href="../part3/index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="prev" title="Part 3 – Advanced Static Analysis" href="../part3/index.html" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
         <title>Part 4 – Advanced Dynamic Analysis - Cyberwal-in-galaxia documentation</title>
@@ -155,18 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Setup and Installation:</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1: Basic Static Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -203,37 +199,43 @@
         <article role="main">
           <div class="section" id="part-4-advanced-dynamic-analysis">
 <h1>Part 4 – Advanced Dynamic Analysis<a class="headerlink" href="#part-4-advanced-dynamic-analysis" title="Permalink to this heading">#</a></h1>
-<hr class="docutils" />
-<p>In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the TODO_NAME binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior without executing them.</p>
-<p>In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger <cite>GDB</cite>). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).</p>
+<p>In this section, you will play with advanced dynamic techniques in order to analyse and update the behavior of a binary. For this part, we will take the previous sample that we used in part 2. As we have noticed earlier, the <code class="docutils literal notranslate"><span class="pre">malware</span></code> binary created some undesirable files on the disk by receiving specific commands from a remote server. Now, we will try to intercept these commands and understand their behavior.</p>
+<p>In order to perform theses tasks, we will rely on a debugger (in our case, the Gnu Project Debugger <code class="docutils literal notranslate"><span class="pre">gdb</span></code>). Unlike static analysis, we will execute the binary file by debugging it. The file is not actually malicious (the commands are harmless).</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>If you do not have access to Internet, make sure to run <strong>inetsim</strong> first (configured as local DNS - see Part 2) and run the binary with the <code class="docutils literal notranslate"><span class="pre">--locahost</span></code> argument.</p>
+</div>
 <div class="section" id="the-gnu-project-debugger">
 <h2>The Gnu Project Debugger<a class="headerlink" href="#the-gnu-project-debugger" title="Permalink to this heading">#</a></h2>
-<p>The Gnu Project Debugger (GDB) can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, …) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.</p>
-<p>Using GDB must be quite familiar to you nevertheless, we will give a very brief reminder with the most important commands that you may use for this part. Note that you can also install <a class="reference external" href="https://hugsy.github.io/gef/">GDB gef</a> or <a class="reference external" href="hhttps://github.com/pwndbg/pwndbg">GDB pwndbg</a> to have GDB plug-in that makes debugging with GDB more intuitive (and fun?).</p>
+<p>The Gnu Project Debugger can be used to study the behavior of a running program by examining its content (e.g., stack, variables, registers, …) . It is also able to disassemble some code, i.e., showing the assembly code corresponding to the instructions.</p>
+<p>You should be familiar with the use of gdb, but we will briefly review the most important commands you can use in this section. Note that you can also install <a class="reference external" href="https://hugsy.github.io/gef/">gdb gef</a> or <a class="reference external" href="hhttps://github.com/pwndbg/pwndbg">gdb pwndbg</a> to have gdb plug-in that makes debugging with gdb more intuitive (and fun?).</p>
 <p>After running your program with <code class="docutils literal notranslate"><span class="pre">gdb</span> <span class="pre">program</span></code> where program is an executable program, you can use the following commands:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span>run                   # run the program
 disassemble method    # disassembles a specified function or a function fragment
-break line_nb         # insert breakpoint at line_nb (can be a method)
-step                  # continue running your program until control reaches a different source line
+break line_nb|method  # insert breakpoint at line_nb (can be a method)
+info functions        # list all functions
+info registers        # list all registers
+stepi (si)            # single step execution (line by line)
 next                  # continue to the next source line in the current (innermost) stack frame
 continue              # continue execution until the next breakpoint.
-x[/n] addr            # examine the memory, where n is the number of words and
-                      # when addr is the address where you want GDB to begin displaying memory.
-p $pc                 # display the value of pc
+x[/n] addr            # examine the memory (addr), where n is the number of words
+x/s addr              # examine the memory (addr) as a string
+p $pc                 # display the value of pc (you can display any registers)
 set $pc = addr        # set the value of pc to a specific address
 </pre></div>
 </div>
-<p>If you need, you can use the <cite>help</cite> command to list all possible commands. There exists also various cheat-sheets available online such as <a class="reference external" href="https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30">GDB_cheatsheet1</a> or <a class="reference external" href="https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf">GDB_cheatsheet2</a></p>
+<p>If you need, you can use the <cite>help</cite> command to list all possible commands. There exists also various cheat-sheets available online such as <a class="reference external" href="https://gist.github.com/rkubik/b96c23bd8ed58333de37f2b8cd052c30">gdb_cheatsheet1</a> or <a class="reference external" href="https://darkdust.net/files/GDB%20Cheat%20Sheet.pdf">gdb_cheatsheet2</a></p>
 </div>
 <div class="section" id="objectives">
 <h2>Objectives<a class="headerlink" href="#objectives" title="Permalink to this heading">#</a></h2>
 <p>The study of the malicious sample may be divided in the following parts:</p>
 <ol class="arabic simple">
-<li><p>The first part is to run the TODO_NAME binary file with gdb in order to intercept and see the content of the different messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?</p></li>
-<li><p>After intercepting these messages, you notice that these commands are executed on your machine. Try to intercept all the different commands by preventing their execution on your machine. How did you do that with gdb?</p></li>
-<li><p>For this part, the idea is to modify the binary in order to be able to display the commands without executing them when this last one is executed without gdb. You can use tools like <code class="docutils literal notranslate"><span class="pre">ghidra</span></code> or <code class="docutils literal notranslate"><span class="pre">hexedit</span></code> to modify the content of the binary. Make sure to do a <strong>backup</strong> of your sample before modifying it.</p></li>
-<li></li>
+<li><p>The first part consists of executing the <code class="docutils literal notranslate"><span class="pre">malware</span></code> binary file with gdb in order to intercept and see the content of the various messages exchanged with the remote server. What is the content of these messages? In addition, what is the remote address of the server?</p></li>
+<li><p>After intercepting these messages, you notice that these commands are being executed on your machine. Try to intercept all the different commands (received by the remote server) by preventing them from being executed. How did you do this with gdb?</p></li>
+<li><p>For this part, your task is to prevent the execution of remote commands by logging them instead. For this task, you <strong>must not</strong> use gdb or modify the binary file. To get a bit of help, it would be interesting to have a look at <a class="reference external" href="https://man7.org/linux/man-pages/man8/ld.so.8.html">LD_PRELOAD</a>.</p></li>
+<li><p>For this last part, the idea is to modify the binary in order to run it without executing any commands received remotely (when this one is executed without gdb). You can use tools like <code class="docutils literal notranslate"><span class="pre">ghidra</span></code> or <code class="docutils literal notranslate"><span class="pre">hexedit</span></code> to modify the content of the binary. Make sure you make a <strong>backup</strong> of your sample before modifying it. Is it possible to log (display) the commands? If so, how do you do it?</p></li>
 </ol>
+<p>Good Luck.</p>
 </div>
 </div>
 
@@ -242,15 +244,7 @@ set $pc = addr        # set the value of pc to a specific address
       <footer>
         
         <div class="related-pages">
-          <a class="next-page" href="../misc/index.html">
-              <div class="page-info">
-                <div class="context">
-                  <span>Next</span>
-                </div>
-                <div class="title">&lt;no title&gt;</div>
-              </div>
-              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
-            </a>
+          
           <a class="prev-page" href="../part3/index.html">
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
               <div class="page-info">

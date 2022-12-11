@@ -155,18 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul>
 <li class="toctree-l1 has-children"><a class="reference internal" href="installation/index.html">Setup and Installation:</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="part1/index.html">Part 1: Basic Static Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="part1/index.html">Part 1 – Basic Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="part2/index.html">Part 2 – Basic Dynamic Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="part4/index.html">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -204,53 +200,57 @@
           <div class="section" id="cyberwal-in-galaxia-2022">
 <h1>Cyberwal in Galaxia [2022]<a class="headerlink" href="#cyberwal-in-galaxia-2022" title="Permalink to this heading">#</a></h1>
 <hr class="docutils" />
-<p>Welcome to ULiege’s Malware Reverse Engineering Lab, which focuses on fundamentals of malware reverse engineering.</p>
-<p>This site contains the tutorial that will help you understand the important concepts related to Malware Reverse Engineering discussed during the theoretical part given by Prof. Laurent Mathy.</p>
+<p>Welcome to ULiege’s Malware Reverse Engineering Lab, which focuses on
+fundamentals of malware reverse engineering.</p>
+<p>This site contains the tutorial that will help you understand the
+important concepts related to Malware Reverse Engineering discussed
+during the theoretical part given by Prof. Laurent Mathy.</p>
 <p>This lab work is presented as a hands-on tutorial and participants are
 encouraged to follow along and work through the different exercises.
 Feel free to ask questions or request clarifications at any point
 during the workshop.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>DISCLAIMER</strong>: This tutorial is intended for academic purposes only, and the methods suggested in further sections should be used with particular care when handling real suspicious/malicious programs. In particular, not all security policies are enforced by all techniques, and many simplifications have been made to meet the timing requirements of this lab.</p>
+<p>The binary files that you will study in this lab are <strong>harmless</strong> and only mimic some of the behavior that real malware can exhibit.</p>
+</div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this heading">#</a></h2>
-<hr class="docutils" />
 <p>There are only two hard requirements in order to follow along with the workshop:</p>
 <ul class="simple">
 <li><p>3 hours of your time</p></li>
 <li><p>An interest in binary analysis and/or reverse engineering</p></li>
-<li><dl class="simple">
-<dt>A Linux machine with administrative privileges with the following software/package:</dt><dd><ul>
-<li><p>GDB</p></li>
-<li><p>Ghidra</p></li>
-<li><p>iNetSim</p></li>
-<li><p>ldd, strace, xxd, hexedit,</p></li>
+<li><p>A Linux machine with administrative privileges with the following software/package: <code class="docutils literal notranslate"><span class="pre">gdb</span></code>, <code class="docutils literal notranslate"><span class="pre">ghidra</span></code>, <code class="docutils literal notranslate"><span class="pre">inetsim</span></code>, <code class="docutils literal notranslate"><span class="pre">file</span></code>, <code class="docutils literal notranslate"><span class="pre">ldd</span></code>, <code class="docutils literal notranslate"><span class="pre">strace</span></code>, <code class="docutils literal notranslate"><span class="pre">xxd</span></code>, <code class="docutils literal notranslate"><span class="pre">hexedit</span></code>, and <code class="docutils literal notranslate"><span class="pre">gcc</span></code>.</p></li>
 </ul>
-</dd>
-</dl>
-</li>
-<li><p>An internet connection</p></li>
-</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The material for all lab parts can be downloaded <code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">LINK</span> <span class="pre">TO</span> <span class="pre">ARCHIVE</span></code>. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.</p>
+</div>
 </div>
 <div class="section" id="tutorial">
 <h2>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this heading">#</a></h2>
-<hr class="docutils" />
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="installation/index.html">Setup and Installation:</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="installation/macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation/macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="part1/index.html">Part 1: Basic Static Analysis</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="part1/index.html">Part 1 – Basic Static Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="part1/index.html#lab-material">Lab material</a></li>
 <li class="toctree-l2"><a class="reference internal" href="part1/index.html#lab-tools">Lab tools</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1/index.html#malware-signature-database">Malware signature database</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1/index.html#a-first-mystery-file">A first mystery file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1/index.html#a-second-mystery-file">A second mystery file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part1/index.html#malware-analysis">Malware analysis</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="part2/index.html">Part 2 – Basic Dynamic Analysis</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="part2/index.html#setup">Setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part2/index.html#dependencies">Dependencies</a></li>
 <li class="toctree-l2"><a class="reference internal" href="part2/index.html#sandboxing">SandBoxing</a></li>
 <li class="toctree-l2"><a class="reference internal" href="part2/index.html#basic-dynamic-analysis-communication-monitoring">Basic Dynamic Analysis – Communication Monitoring</a></li>
 <li class="toctree-l2"><a class="reference internal" href="part2/index.html#basic-dynamic-analysis-file-system-events-monitoring">Basic Dynamic Analysis – File System Events Monitoring</a></li>
-<li class="toctree-l2"><a class="reference internal" href="part2/index.html#additional-ressources">Additional Ressources</a></li>
+<li class="toctree-l2"><a class="reference internal" href="part2/index.html#additional-resources">Additional Resources</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="part3/index.html">Part 3 – Advanced Static Analysis</a><ul>
@@ -263,27 +263,6 @@ during the workshop.</p>
 <li class="toctree-l1"><a class="reference internal" href="part4/index.html">Part 4 – Advanced Dynamic Analysis</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="part4/index.html#the-gnu-project-debugger">The Gnu Project Debugger</a></li>
 <li class="toctree-l2"><a class="reference internal" href="part4/index.html#objectives">Objectives</a></li>
-</ul>
-</li>
-</ul>
-</div>
-</div>
-<div class="section" id="others">
-<h2>Others<a class="headerlink" href="#others" title="Permalink to this heading">#</a></h2>
-<hr class="docutils" />
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="misc/unixcmd.html">UNIX Commands (1)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd.html#exploring-the-file-system">Exploring the file system</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd.html#managing-files">Managing files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd.html#viewing-files">Viewing files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd.html#misc">Misc</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="misc/unixcmd2.html">UNIX Commands (2)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd2.html#os-information">OS Information</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd2.html#text-processing">Text processing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="misc/unixcmd2.html#file-search">File search</a></li>
 </ul>
 </li>
 </ul>
@@ -341,7 +320,6 @@ during the workshop.</p>
 <li><a class="reference internal" href="#">Cyberwal in Galaxia [2022]</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#tutorial">Tutorial</a></li>
-<li><a class="reference internal" href="#others">Others</a></li>
 </ul>
 </li>
 </ul>

@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Setting Up a VM on Linux/Windows and Mac (intel chips)" href="vmsetup.html" /><link rel="prev" title="Cyberwal in Galaxia [2022]" href="../index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Setting Up a VM on Linux/Windows and Mac (Intel chips)" href="vmsetup.html" /><link rel="prev" title="Cyberwal in Galaxia [2022]" href="../index.html" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
         <title>Setup and Installation: - Cyberwal-in-galaxia documentation</title>
@@ -155,24 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 current has-children current-page"><a class="current reference internal" href="#">Setup and Installation:</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part4/index.html">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -209,27 +199,31 @@
         <article role="main">
           <div class="section" id="setup-and-installation">
 <h1>Setup and Installation:<a class="headerlink" href="#setup-and-installation" title="Permalink to this heading">#</a></h1>
-<p>In this chapter, you will learn to setup the basic environment by installing Kali Linux as VM and then to login to your VM by ssh.</p>
+<hr class="docutils" />
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>If you already have a Linux Virtual Machine, you can skip this part nevertheless note that you will need to download the tools mentioned in the different parts of the tutorial if your machine is not Kali Linux.</p>
+<p>If you already have a Linux Virtual Machine, you can skip this part nevertheless note that you will need to download the tools mentioned in the different parts of the tutorial if your machine is not Kali Linux. Most tools can be obtained via <code class="docutils literal notranslate"><span class="pre">apt</span> <span class="pre">install</span></code>.</p>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="vmsetup.html#installing-virtualbox">Installing VirtualBox</a></li>
-<li class="toctree-l2"><a class="reference internal" href="vmsetup.html#download-the-reference-vm-image">Download the reference VM image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="vmsetup.html#download-the-kali-vm-image-virtualbox">Download the Kali VM image (VirtualBox)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vmsetup.html#launch-the-downloaded-vm-image-on-virtualbox">Launch the downloaded VM image on VirtualBox</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vmsetup.html#connect-to-the-vm-via-ssh">Connect to the VM via ssh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vmsetup.html#connect-to-the-vm-by-ssh">Connect to the VM by ssh</a></li>
 <li class="toctree-l2"><a class="reference internal" href="vmsetup.html#update-package-information">Update package information</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html#download-the-reference-vm-image">Download the reference VM image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html#installing-the-vm-on-mac-m1-chip">Installing the VM on Mac (m1 chip)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html#connect-to-the-vm-by-ssh">Connect to the VM by ssh</a></li>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html#update-package-information">Update package information</a></li>
+<li class="toctree-l1"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="macsetup.html#connect-to-a-remote-vm-kali-already-setup">Connect to a remote VM (Kali) already setup</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macsetup.html#using-qemu-as-emulator-slow">Using Qemu as emulator (SLOW)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="macsetup.html#download-the-kali-vm-image">Download the Kali VM image</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsetup.html#installing-the-vm-on-mac-m1-chip">Installing the VM on Mac (M1 chip)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsetup.html#connect-to-the-vm-by-ssh">Connect to the VM by ssh</a></li>
+<li class="toctree-l3"><a class="reference internal" href="macsetup.html#update-package-information">Update package information</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -246,7 +240,7 @@
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Setting Up a VM on Linux/Windows and Mac (intel chips)</div>
+                <div class="title">Setting Up a VM on Linux/Windows and Mac (Intel chips)</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>

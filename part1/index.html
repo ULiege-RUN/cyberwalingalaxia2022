@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Part 2 – Basic Dynamic Analysis" href="../part2/index.html" /><link rel="prev" title="Setting Up a VM on a recent Mac (m1 chips)" href="../installation/macsetup.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Part 2 – Basic Dynamic Analysis" href="../part2/index.html" /><link rel="prev" title="Setting Up a VM on a recent Mac (with M1 or M2 chips)" href="../installation/macsetup.html" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>Part 1: Basic Static Analysis - Cyberwal-in-galaxia documentation</title>
+        <title>Part 1 – Basic Static Analysis - Cyberwal-in-galaxia documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,18 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Setup and Installation:</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Part 1: Basic Static Analysis</a></li>
+<li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Part 1 – Basic Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part4/index.html">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -202,15 +198,76 @@
         </div>
         <article role="main">
           <div class="section" id="part-1-basic-static-analysis">
-<h1>Part 1: Basic Static Analysis<a class="headerlink" href="#part-1-basic-static-analysis" title="Permalink to this heading">#</a></h1>
+<h1>Part 1 – Basic Static Analysis<a class="headerlink" href="#part-1-basic-static-analysis" title="Permalink to this heading">#</a></h1>
+<hr class="docutils" />
 <div class="section" id="lab-material">
 <h2>Lab material<a class="headerlink" href="#lab-material" title="Permalink to this heading">#</a></h2>
-<p>In this lab, you will use basic static analysis techniques on a set of binaries whose source code you do not have in order to achieve a basic understanding of their logic.</p>
-<p>All 3 binary files can be downloaded here.</p>
+<p>In this lab, you will explore many binary reverse engineering techniques. In this first part, you will use basic static analysis techniques on a set of binaries whose source code you do not have in order to achieve a basic understanding of their logic.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The material for all lab parts can be downloaded <code class="docutils literal notranslate"><span class="pre">ADD</span> <span class="pre">LINK</span> <span class="pre">TO</span> <span class="pre">ARCHIVE</span></code>. This zip archive contains one folder per part of the lab. Each folder contains the files for the corresponding part.</p>
+</div>
 </div>
 <div class="section" id="lab-tools">
 <h2>Lab tools<a class="headerlink" href="#lab-tools" title="Permalink to this heading">#</a></h2>
-<p>All tools listed below are readily available in the provided reference virtual machine.</p>
+<p>All tools listed below are readily available in the reference virtual machine (Kali 2022.4). If you are using something else, please make sure to use UPX version 3.96 (<a class="reference external" href="https://github.com/upx/upx/releases/tag/v3.96">https://github.com/upx/upx/releases/tag/v3.96</a>).</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">md5sum</span></code> can be used to compute the MD5 signature of a given file. This is useful to check files against databases of known malware signatures. Never run a binary whose signature is in such a database.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">file</span></code> can be used to determine whether a binary is statically or dynamically linked and whether the binary is stripped or not. A stripped binary does not contain any symbolic information (e.g. function names) which makes it more difficult to analyze.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ldd</span></code> can provide a list of the dynamically linked libraries used by the binary</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">strings</span></code> can provide a list of all printable strings found in a binary. By default, it only prints strings of length greater than 3 to restrict the output’s length but this minimum string length can be configured through the <code class="docutils literal notranslate"><span class="pre">-n</span></code> flag.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">nm</span></code> provides the list of symbols found within a binary if it contains any. It will only be of use if the binary is not stripped.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">objdump</span></code> allows to interpret the binary’s contents. A particularly useful flag is <code class="docutils literal notranslate"><span class="pre">-S</span></code> which allows to have a quick look at the disassembled code (i.e. the machine code is translated in human-readable assembly language). More advanced tools will be presented in Part 3, but it may still be of interest to have a quick look at the assembly. In particular, looking at which functions are called (only possible for non-stripped binaries) can shed some light on the inner workings of a binary without delving too deep into the assembly code.</p></li>
+<li><dl class="simple">
+<dt><code class="docutils literal notranslate"><span class="pre">upx</span></code> is a packer. Its main purpose is not obfuscation but it can be used to make static binary analysis more difficult by hiding a binary’s real code. It modifies a binary by storing its code within a string in another which starts with a small bootstrap code that retrieves the real code from the string, stores it in memory and executes it.</dt><dd><ul>
+<li><p><code class="docutils literal notranslate"><span class="pre">upx</span> <span class="pre">&lt;filename&gt;</span></code> modifies the file so that it is packed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">upx</span> <span class="pre">-d</span> <span class="pre">&lt;filename&gt;</span></code> can be used to retrieve the original binary from a packed binary.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="malware-signature-database">
+<h2>Malware signature database<a class="headerlink" href="#malware-signature-database" title="Permalink to this heading">#</a></h2>
+<p>You have been provided with the following database of MD5 signatures of malicious files. Check every binary you get your hands on against it.</p>
+<ul class="simple">
+<li><p>c26866ad6efeff7ad2f555ac42cb1d4f</p></li>
+<li><p>641931f6ed670acf54ce5d1af07c58ba</p></li>
+<li><p>51039fa833ea00f5a4c75ab4ca0db2ae</p></li>
+</ul>
+</div>
+<div class="section" id="a-first-mystery-file">
+<h2>A first mystery file<a class="headerlink" href="#a-first-mystery-file" title="Permalink to this heading">#</a></h2>
+<p>Analyze the <code class="docutils literal notranslate"><span class="pre">mystery1</span></code> binary with your tools.</p>
+<ul class="simple">
+<li><p>Check the file against your malware signature database. If it is not found in there, you may run it.</p></li>
+<li><p>Is this a stripped binary?</p></li>
+<li><p>What are the dynamically linked library it uses?</p></li>
+<li><p>Find the secret passphrase. Use all tools at your disposal.</p></li>
+</ul>
+</div>
+<div class="section" id="a-second-mystery-file">
+<h2>A second mystery file<a class="headerlink" href="#a-second-mystery-file" title="Permalink to this heading">#</a></h2>
+<p>Analyze the <code class="docutils literal notranslate"><span class="pre">mystery2</span></code> binary with your tools.</p>
+<ul class="simple">
+<li><p>Check the file against your malware signature database. If it is not found in there, you may run it.</p></li>
+<li><p>Is this a stripped binary?</p></li>
+<li><p>What are the dynamically linked library it uses?</p></li>
+<li><p>Find the secret passphrase. Use all tools at your disposal.</p></li>
+</ul>
+</div>
+<div class="section" id="malware-analysis">
+<h2>Malware analysis<a class="headerlink" href="#malware-analysis" title="Permalink to this heading">#</a></h2>
+<p>Dynamic analysis techniques have shown that the <code class="docutils literal notranslate"><span class="pre">malware</span></code> binary file displays suspicious behavior on the network. Never run it.</p>
+<ul class="simple">
+<li><p>Check the file against your malware signature database. Can you find it in there?</p></li>
+<li><p>Is this a stripped binary?</p></li>
+<li><p>Does it rely on any dynamic libraries?</p></li>
+<li><p>Is there anything weird about the results of the analysis of this binary file? Explain a likely cause of your observations.</p></li>
+<li><p>Deal with issue mentioned above. Is anything different now about your analysis? Can you find a new use to your signature database?</p></li>
+<li><p>Can you observe anything that would suggest malicious network communication? Explain.</p></li>
+</ul>
 </div>
 </div>
 
@@ -235,7 +292,7 @@
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Setting Up a VM on a recent Mac (m1 chips)</div>
+                <div class="title">Setting Up a VM on a recent Mac (with M1 or M2 chips)</div>
                 
               </div>
             </a>
@@ -271,9 +328,13 @@
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Part 1: Basic Static Analysis</a><ul>
+<li><a class="reference internal" href="#">Part 1 – Basic Static Analysis</a><ul>
 <li><a class="reference internal" href="#lab-material">Lab material</a></li>
 <li><a class="reference internal" href="#lab-tools">Lab tools</a></li>
+<li><a class="reference internal" href="#malware-signature-database">Malware signature database</a></li>
+<li><a class="reference internal" href="#a-first-mystery-file">A first mystery file</a></li>
+<li><a class="reference internal" href="#a-second-mystery-file">A second mystery file</a></li>
+<li><a class="reference internal" href="#malware-analysis">Malware analysis</a></li>
 </ul>
 </li>
 </ul>

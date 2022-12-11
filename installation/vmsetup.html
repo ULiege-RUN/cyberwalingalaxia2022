@@ -2,10 +2,10 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Setting Up a VM on a recent Mac (m1 chips)" href="macsetup.html" /><link rel="prev" title="Setup and Installation:" href="index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Setting Up a VM on a recent Mac (with M1 or M2 chips)" href="macsetup.html" /><link rel="prev" title="Setup and Installation:" href="index.html" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
-        <title>Setting Up a VM on Linux/Windows and Mac (intel chips) - Cyberwal-in-galaxia documentation</title>
+        <title>Setting Up a VM on Linux/Windows and Mac (Intel chips) - Cyberwal-in-galaxia documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?digest=d81277517bee4d6b0349d71bb2661d4890b5617c" />
     <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
@@ -155,24 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 current has-children"><a class="reference internal" href="index.html">Setup and Installation:</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
-<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
-<li class="toctree-l1 has-children"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="simple">
-</ul>
-</li>
+<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part2/index.html">Part 2 – Basic Dynamic Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part4/index.html">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -208,25 +198,30 @@
         </div>
         <article role="main">
           <div class="section" id="setting-up-a-vm-on-linux-windows-and-mac-intel-chips">
-<h1>Setting Up a VM on Linux/Windows and Mac (intel chips)<a class="headerlink" href="#setting-up-a-vm-on-linux-windows-and-mac-intel-chips" title="Permalink to this heading">#</a></h1>
+<h1>Setting Up a VM on Linux/Windows and Mac (Intel chips)<a class="headerlink" href="#setting-up-a-vm-on-linux-windows-and-mac-intel-chips" title="Permalink to this heading">#</a></h1>
+<hr class="docutils" />
 <p>You need to have a working virtual machine for the lab work therefore you must follow this tutorial carefully in order to have a functional setup before starting the lab work. We decided to choose Kali Linux (VM) for the lab.</p>
+<div class="admonition danger">
+<p class="admonition-title">Danger</p>
+<p>Downloading the VM image may take some time. If you did not prepare your VM soon enough, you may skip these step and go <a class="reference internal" href="macsetup.html#target-connect-to-a-remote-vm"><span class="std std-ref">here</span></a>.</p>
+</div>
 <div class="section" id="installing-virtualbox">
 <h2>Installing VirtualBox<a class="headerlink" href="#installing-virtualbox" title="Permalink to this heading">#</a></h2>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
-<p>If you have a recent Macbook (with a m1 chip), skip VirtualBox steps and go <a class="reference external" href="macsetup.html">here</a> instead.</p>
+<p>If you have a recent Macbook (with M1 or M2 chip), skip VirtualBox steps and go <a class="reference external" href="macsetup.html">here</a> instead.</p>
 </div>
 <p>First download the VirtualBox installer from <a class="reference external" href="https://www.virtualbox.org/">official web page</a> according to your OS. After finishing the download, launch the installer and follow the instruction of the installer.
 VirtualBox is a virtualization software which allows you to create VMs that run OSes including Linux on your computer without removing your currently-using OSes such as Windows and macOS. In this course, we execute Linux on the VM made by VirtualBox.</p>
 </div>
-<div class="section" id="download-the-reference-vm-image">
-<h2>Download the reference VM image<a class="headerlink" href="#download-the-reference-vm-image" title="Permalink to this heading">#</a></h2>
+<div class="section" id="download-the-kali-vm-image-virtualbox">
+<h2>Download the Kali VM image (VirtualBox)<a class="headerlink" href="#download-the-kali-vm-image-virtualbox" title="Permalink to this heading">#</a></h2>
 <p>Then download the reference Kali Linux image from <a class="reference external" href="https://www.kali.org/get-kali/#kali-virtual-machines">this link</a>.
 The image contains Kali Linux 64bits. The default user of the VM image is <code class="docutils literal notranslate"><span class="pre">kali</span></code>. The password for the user is also <code class="docutils literal notranslate"><span class="pre">kali</span></code>.</p>
 </div>
 <div class="section" id="launch-the-downloaded-vm-image-on-virtualbox">
 <h2>Launch the downloaded VM image on VirtualBox<a class="headerlink" href="#launch-the-downloaded-vm-image-on-virtualbox" title="Permalink to this heading">#</a></h2>
-<p>We will create a new virtual machine based on the reference image:</p>
+<p>Note that the following screenshots use Ubuntu and not Kali Linux nevertheless the procedure is exactly the same.</p>
 <ol class="arabic simple">
 <li><p>Click on the “New” icon in the toolbar to launch the creation wizard and create a new VM.</p></li>
 </ol>
@@ -234,19 +229,20 @@ The image contains Kali Linux 64bits. The default user of the VM image is <code 
 <img alt="../_images/1.png" src="../_images/1.png" />
 </div>
 <ol class="arabic simple" start="2">
-<li><p>The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine <code class="docutils literal notranslate"><span class="pre">Ubuntu</span></code>. The type will be Linux and the Ubuntu <strong>32 bits</strong> version.</p></li>
+<li><p>The first thing to do is to define the name, the type of virtual machine and the version you want to create. In our case, we chose to name the machine <code class="docutils literal notranslate"><span class="pre">kali</span></code>.</p></li>
 </ol>
 <div class="figure align-default">
 <img alt="../_images/2.png" src="../_images/2.png" />
 </div>
 <ol class="arabic simple" start="3">
-<li><p>Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 1024MB but if you have enough memory on your system, you can slide the bar up to 2048MB.</p></li>
+<li><p>Next, you need to define the amount of memory to be allocated to the virtual machine. The memory will be shared with the host system each time the virtual machine is started. You have to make sure not to go below the recommended minimum. In addition, you must also make sure to leave enough memory for the host operating system to continue running. We recommend a minimum of 2048MB but if you have enough memory on your system, you can slide the bar up to 4096MB.</p></li>
 </ol>
 <div class="figure align-default">
 <img alt="../_images/3.png" src="../_images/3.png" />
 </div>
-<p>4. The next step is to use a virtual hard disk. Like shared memory, this is the storage space that will be allocated to the virtual machine. In this case, we will use the virtual hard disk you downloaded (<code class="docutils literal notranslate"><span class="pre">Ubuntu.vdi</span></code>). Click the “Use an existing virtual hard disk file” option. A new window will open. Click on the “Add” button then select the file
-<code class="docutils literal notranslate"><span class="pre">Ubuntu.vdi</span></code> by browsing your file explore (it should normally be in your “Downloads” folder).</p>
+<ol class="arabic simple" start="4">
+<li><p>The next step is to use a virtual hard disk. Like shared memory, this is the storage space that will be allocated to the virtual machine. In this case, we will use the virtual hard disk you downloaded (<code class="docutils literal notranslate"><span class="pre">kali-linux-2022.4-virtualbox-amd64.vdi</span></code>). Click the “Use an existing virtual hard disk file” option. A new window will open. Click on the “Add” button then select the file <code class="docutils literal notranslate"><span class="pre">kali-linux-2022.4-virtualbox-amd64.vdi</span></code> by browsing your file explorer.</p></li>
+</ol>
 <div class="figure align-default">
 <img alt="../_images/4.png" src="../_images/4.png" />
 </div>
@@ -263,7 +259,7 @@ The image contains Kali Linux 64bits. The default user of the VM image is <code 
 <img alt="../_images/6.png" src="../_images/6.png" />
 </div>
 <ol class="arabic simple" start="7">
-<li><p>Once the initialization phase is complete, the console login screen appears. The password to log in is the same as the user name, i.e. <code class="docutils literal notranslate"><span class="pre">student</span></code>.</p></li>
+<li><p>Once the initialization phase is complete, the console login screen appears. The password to log in is the same as the user name, i.e. <code class="docutils literal notranslate"><span class="pre">kali</span></code>.</p></li>
 </ol>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
@@ -303,17 +299,17 @@ The image contains Kali Linux 64bits. The default user of the VM image is <code 
 <div class="figure align-default">
 <img alt="../_images/21.png" src="../_images/21.png" />
 </div>
-<p>Finally, click on the green “+” button, and type the following information. This allows to connect to the remove virtual machine through localhost by using the “6543” port on the host machine (your computer).</p>
+<p>Finally, click on the green “+” button, and type the following information. This allows to connect to the remove virtual machine through localhost by using the <code class="docutils literal notranslate"><span class="pre">6543</span></code> port on the host machine (your computer).</p>
 <div class="figure align-default">
 <img alt="../_images/31.png" src="../_images/31.png" />
 </div>
 <p>Further details about the configuration:</p>
 <ul class="simple">
-<li><p>Name: ssh (anything would be fine but try to be consistent)</p></li>
-<li><p>Protocol: TCP</p></li>
-<li><p>Host IP: 127.0.0.1 (localhost)</p></li>
-<li><p>Host Port: 6543 (mostly any number [&gt;1024] would be OK but remember it!)</p></li>
-<li><p>Guest Port: 22 (ssh port)</p></li>
+<li><p>Name: <code class="docutils literal notranslate"><span class="pre">ssh</span></code> (anything would be fine but try to be consistent)</p></li>
+<li><p>Protocol: <code class="docutils literal notranslate"><span class="pre">TCP</span></code></p></li>
+<li><p>Host IP: <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> (localhost)</p></li>
+<li><p>Host Port: <code class="docutils literal notranslate"><span class="pre">6543</span></code> (mostly any number [&gt;1024] would be OK but remember it!)</p></li>
+<li><p>Guest Port: <code class="docutils literal notranslate"><span class="pre">22</span></code> (ssh port)</p></li>
 </ul>
 </div>
 <div class="section" id="connect-to-the-vm-by-ssh">
@@ -343,7 +339,7 @@ The image contains Kali Linux 64bits. The default user of the VM image is <code 
                 <div class="context">
                   <span>Next</span>
                 </div>
-                <div class="title">Setting Up a VM on a recent Mac (m1 chips)</div>
+                <div class="title">Setting Up a VM on a recent Mac (with M1 or M2 chips)</div>
               </div>
               <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
             </a>
@@ -390,9 +386,9 @@ The image contains Kali Linux 64bits. The default user of the VM image is <code 
         <div class="toc-tree-container">
           <div class="toc-tree">
             <ul>
-<li><a class="reference internal" href="#">Setting Up a VM on Linux/Windows and Mac (intel chips)</a><ul>
+<li><a class="reference internal" href="#">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a><ul>
 <li><a class="reference internal" href="#installing-virtualbox">Installing VirtualBox</a></li>
-<li><a class="reference internal" href="#download-the-reference-vm-image">Download the reference VM image</a></li>
+<li><a class="reference internal" href="#download-the-kali-vm-image-virtualbox">Download the Kali VM image (VirtualBox)</a></li>
 <li><a class="reference internal" href="#launch-the-downloaded-vm-image-on-virtualbox">Launch the downloaded VM image on VirtualBox</a></li>
 <li><a class="reference internal" href="#connect-to-the-vm-via-ssh">Connect to the VM via ssh</a></li>
 <li><a class="reference internal" href="#connect-to-the-vm-by-ssh">Connect to the VM by ssh</a></li>

@@ -2,7 +2,7 @@
 <html class="no-js" lang="en">
   <head><meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width,initial-scale=1"/>
-    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Part 3 – Advanced Static Analysis" href="../part3/index.html" /><link rel="prev" title="Part 1: Basic Static Analysis" href="../part1/index.html" />
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="../genindex.html" /><link rel="search" title="Search" href="../search.html" /><link rel="next" title="Part 3 – Advanced Static Analysis" href="../part3/index.html" /><link rel="prev" title="Part 1 – Basic Static Analysis" href="../part1/index.html" />
 
     <meta name="generator" content="sphinx-5.3.0, furo 2022.09.29"/>
         <title>Part 2 – Basic Dynamic Analysis - Cyberwal-in-galaxia documentation</title>
@@ -155,18 +155,14 @@
 <div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
   <ul class="current">
 <li class="toctree-l1 has-children"><a class="reference internal" href="../installation/index.html">Setup and Installation:</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
-<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (intel chips)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (m1 chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/vmsetup.html">Setting Up a VM on Linux/Windows and Mac (Intel chips)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installation/macsetup.html">Setting Up a VM on a recent Mac (with M1 or M2 chips)</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1: Basic Static Analysis</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../part1/index.html">Part 1 – Basic Static Analysis</a></li>
 <li class="toctree-l1 current current-page"><a class="current reference internal" href="#">Part 2 – Basic Dynamic Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part3/index.html">Part 3 – Advanced Static Analysis</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../part4/index.html">Part 4 – Advanced Dynamic Analysis</a></li>
-</ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd.html">UNIX Commands (1)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../misc/unixcmd2.html">UNIX Commands (2)</a></li>
 </ul>
 
 </div>
@@ -204,28 +200,26 @@
           <div class="section" id="part-2-basic-dynamic-analysis">
 <h1>Part 2 – Basic Dynamic Analysis<a class="headerlink" href="#part-2-basic-dynamic-analysis" title="Permalink to this heading">#</a></h1>
 <hr class="docutils" />
-<p>In the previous section, you studied some basic static binary analysis techniques that allow you to characterize parts of an executable file without actually executing it. As such, these techniques most often involve analyzing the binary code to trace the data and control flows of the executable. Unfortunately, you have seen in the previous section that these techniques can be easily mitigated through obfuscation techniques. In addition, the compilation of higher-level source code may result in very complex binary file that may be very hard to interpret with such basic tools. All in all, such basic analysis technique often fail to provide a complete overview on the actual runtime behavior of binary files.</p>
+<p>In the previous section, you studied some basic static binary analysis techniques that allow you to characterize parts of an executable file without actually executing it. As such, these techniques most often involve analyzing the binary code to trace the data and control flows of the executable. Unfortunately, you have seen in the previous section that these techniques can be easily mitigated through obfuscation techniques. In addition, the compilation of higher-level source code often result in very complex binary file that may be very hard to interpret with such basic tools. All in all, such basic analysis technique often fail to provide a complete overview on the actual runtime behavior of binary files.</p>
 <p>In this part of the lab, you will tackle such issues using dynamic analysis techniques, thus, completing your toolbox to analyze binary files. The techniques that you will see in this part of the lab will allow your to further characterize the content of binary files by actually studying part of its runtime behavior. In practice, part of this lab will also be dedicated to discover state-of-the-art sandboxing tools that will allow you to execute instruction in a controlled and secure environment. Such tools aims at allowing to perform a runtime analysis of unknown binary file while preventing collateral damages on your testbed, or any device connected to it. In addition, sandboxing tools also ensure that results that you obtain are actually caused by the binary file of interest, and reduce the bias in your observations.</p>
-<div class="section" id="setup">
-<h2>Setup<a class="headerlink" href="#setup" title="Permalink to this heading">#</a></h2>
-<p>For this part of the practical session, you need the following dependencies to be installed: <strong>libssl-dev</strong>, <strong>debootstrap</strong>, <strong>iwatch</strong> and <strong>inetsim</strong>. If they are not installed, you can run the following command:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install libssl-dev debootstrap iwatch inetsim</span>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">#</a></h2>
+<p>For this part of the practical session, you need the following dependencies to be installed: <code class="docutils literal notranslate"><span class="pre">libssl-dev</span></code>, <code class="docutils literal notranslate"><span class="pre">debootstrap</span></code>, <code class="docutils literal notranslate"><span class="pre">iwatch</span></code> and <code class="docutils literal notranslate"><span class="pre">inetsim</span></code>. If they are not installed, you can run the following commands:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo apt install -y libssl-dev debootstrap iwatch inetsim</span>
 </pre></div>
 </div>
+<p>In addition, the binary file that you will study is the <code class="docutils literal notranslate"><span class="pre">malware</span></code> executable (similar to the binary file that you studied in the Part 1).</p>
 </div>
 <div class="section" id="sandboxing">
 <h2>SandBoxing<a class="headerlink" href="#sandboxing" title="Permalink to this heading">#</a></h2>
 <p>In cybersecurity, a sandbox is a controlled, isolated execution environment that mimics a given target environment. Such tools allows one to execute programs on a mock environment, minimizing the risk of compromising live systems, while still providing similar runtime features as a target environment.</p>
 <p>There exists many tool that can be used for sandboxing ranging from virtualization and containerization techniques to simpler isolation mechanisms such as linux namespaces, chroot jails, etc. In this lab, we will focus on two main aspects of sandboxing: network sandboxing and file system sandboxing.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p><strong>DISCLAIMER</strong>: This tutorial is intended for academic purposes, and the methods suggested in these sections should be used with particular care when handling real suspicious/malicious programs. In particular, not all security policies are enforced by these sandboxing techniques, and many simplifications have been made to meet the timing constraints of this lab.</p>
-</div>
 <div class="section" id="network-sandboxing">
 <h3>Network SandBoxing<a class="headerlink" href="#network-sandboxing" title="Permalink to this heading">#</a></h3>
 <p>Network sandboxing refers to tools and techniques that restrict programs to generate network traffic within a controlled and isolated network. The idea is to restrict the communication of a program with external entities as well as to prevent any collateral damages resulting from those communications, e.g. DDoS, botnets synchronization, etc.</p>
 <p>Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided network sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, <strong>network namespaces</strong> are linux kernel feature allowing us to isolate network environments through virtualization. For example, using network namespaces, you can create separate network interfaces and routing tables that are isolated from the rest of the system and operate independently.</p>
-<p><strong>Using linux network namespace to setup a basic network sandbox</strong> The environment that we will create is a very basic network namespace that will allow us to sniff the traffic initially generated by a program when it starts running. For instance, it can allow us to capture initial DNS queries allowing the program to resolve the domain name of the server it wants to contact. To create a network namespace, called <strong>network-jail</strong>, you can run the command:</p>
+<p><strong>Using linux network namespace to setup a basic network sandbox</strong></p>
+<p>The environment that we will create is a very basic network namespace that will allow us to sniff the traffic initially generated by a program when it starts running. For instance, it can allow us to capture initial DNS queries allowing the program to resolve the domain name of the server it wants to contact. To create a network namespace, called <strong>network-jail</strong>, you can run the command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo ip netns add network-jail</span>
 </pre></div>
 </div>
@@ -233,7 +227,8 @@
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo ip netns exec network-jail ./executable</span>
 </pre></div>
 </div>
-<p><strong>Using linux network namespace and InetSim to setup a smarter network sandbox</strong> The environment that we will create consist of smarter network namespace in which we will run basic network services to answer the queries issued by our program and to manipulate our answers to redirect towards our other network services. As such, the aim of this sandbox is to dig as deep as possible into the program execution and generate as much traffic as we can to analyze traffic patterns. To do so, create a network namespace using the previous commands. Then, you can execute both your inetsim simulator, and the executable of interest in you network namespace using:</p>
+<p><strong>Using linux network namespace and InetSim to setup a smarter network sandbox</strong></p>
+<p>The environment that we will create consist of smarter network namespace in which we will run basic network services to answer the queries issued by our program and to manipulate our answers to redirect towards our other network services. As such, the aim of this sandbox is to dig as deep as possible into the program execution and generate as much traffic as we can to analyze traffic patterns. To do so, create a network namespace using the previous commands. Then, you can execute both your <code class="docutils literal notranslate"><span class="pre">inetsim</span></code> simulator, and the executable of interest in you network namespace using:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">terminal1&gt; sudo ip netns exec sudo inetsim</span>
 <span class="go">terminal2&gt; sudo ip netns exec network-jail ./executable</span>
 </pre></div>
@@ -242,14 +237,15 @@
 <div class="section" id="filesystem-sandboxing">
 <h3>FileSystem SandBoxing<a class="headerlink" href="#filesystem-sandboxing" title="Permalink to this heading">#</a></h3>
 <p>Filesystem sandboxing refers to tools and techniques that restrict programs to execute operations on a controlled and isolated file system. The idea is to restrict access to sensitive data and prevent collateral damages when running untrusted programs while still allowing them to proceed with their execution.</p>
-<p>Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided file system sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, <strong>chroot</strong> is a unix system call that changes the apparent root directory for a given running process as well as its children. As such, a program that is run in a chrooted environment will sees a normal filesystem while it in fact has a restricted access to a virtual root directory. The goal is to prevent the process from accessing files outside its sandbox. For instance, if you run a program <code class="docutils literal notranslate"><span class="pre">foo</span></code> in a chrooted environment, and that this program exploit a vulnerability that allows him to overwrite files in a protected directory, the program will perceive a <strong>/</strong> directory and will write relative to that directory, while on the real filesystem it has only access to a virtual root located in <strong>/path/to/jail</strong> and has no access to the real <strong>/</strong> directory.</p>
+<p>Most Unix and Unix-like systems include some sort of system call or other mechanism that can be used to provided file system sandboxing capabilities with various level of isolation between the host and the sandbox. In particular, <code class="docutils literal notranslate"><span class="pre">chroot</span></code> is a unix system call that changes the apparent root directory for a given running process as well as its children. As such, a program that is run in a chrooted environment will sees a normal filesystem while it in fact has a restricted access to a virtual root directory. The goal is to prevent the process from accessing files outside its sandbox. For instance, if you run a program <code class="docutils literal notranslate"><span class="pre">foo</span></code> in a chrooted environment, and that this program exploit a vulnerability that allows him to overwrite files in a protected directory, the program will perceive a <code class="docutils literal notranslate"><span class="pre">/</span></code> directory and will write relative to that directory, while on the real filesystem it has only access to a virtual root located in <code class="docutils literal notranslate"><span class="pre">/path/to/jail</span></code> and has no access to the real <code class="docutils literal notranslate"><span class="pre">/</span></code> directory.</p>
 <a class="reference internal image-reference" href="../_images/chroot-jail.png"><img alt="../_images/chroot-jail.png" class="align-center" src="../_images/chroot-jail.png" style="width: 600px;" /></a>
-<p><strong>Using chroot and deboostrap to setup a filesystem sandbox</strong> The environment that we will create is known as “<strong>chroot jail</strong>” or “<strong>jailed directory</strong>”.</p>
+<p><strong>Using chroot and deboostrap to setup a filesystem sandbox</strong></p>
+<p>The environment that we will create is known as “<strong>chroot jail</strong>” or “<strong>jailed directory</strong>”.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For more information on <strong>chroot</strong> and <strong>deboostrap</strong> please consult their manpage.</p>
+<p>For more information on <code class="docutils literal notranslate"><span class="pre">chroot</span></code> and <code class="docutils literal notranslate"><span class="pre">deboostrap</span></code> please consult their manpage.</p>
 </div>
-<p>First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of <strong>deboostrap</strong> to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located <strong>/path/to/jail</strong> based on the <strong>amd64</strong> architecture:</p>
+<p>First, we will create a minimal, internally-consistent environment in such a way that the program that we will execute thinks that it is run on a legit system. To do so, we will make use of <code class="docutils literal notranslate"><span class="pre">deboostrap</span></code> to install a Debian-like base system into a subdirectory. The following command create a minimal virtual root directory located <code class="docutils literal notranslate"><span class="pre">/path/to/jail</span></code> based on the amd64 architecture:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo debootstrap --arch=amd64 --variant=minbase sid /path/to/jail-directory</span>
 </pre></div>
 </div>
@@ -263,7 +259,7 @@
 </div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>You may need libraries to execute your program. For instance, the library <strong>libssl-dev</strong> can be installed in the chrooted environement using:</p>
+<p>You may need libraries to execute your program. For instance, the library <code class="docutils literal notranslate"><span class="pre">libssl-dev</span></code> can be installed in the chrooted environment using:</p>
 </div>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo chroot /path/to/jail-directory apt install libssl-dev</span>
 </pre></div>
@@ -281,38 +277,43 @@
 <div class="section" id="communication-monitoring-with-tcpdump">
 <h3>Communication Monitoring with Tcpdump<a class="headerlink" href="#communication-monitoring-with-tcpdump" title="Permalink to this heading">#</a></h3>
 <p>The first step of this investigation will be to create a simple network namespace. Then, we will need to perform some configuration to ensure dns queries are issued by the program:</p>
-<dl class="simple">
-<dt>+;; ;  sudo mkdir /etc/netns/network-jail</dt><dd><p>echo ‘nameserver 127.0.0.1’ | sudo tee -a “/etc/netns/network-jail/resolv.conf”
-sudo ip netns exec network-jail ip link set dev lo up</p>
-</dd>
-</dl>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo mkdir -p /etc/netns/network-jail</span>
+<span class="go">echo &#39;nameserver 127.0.0.1&#39; | sudo tee -a &quot;/etc/netns/network-jail/resolv.conf&quot;</span>
+<span class="go">sudo ip netns exec network-jail ip link set dev lo up</span>
+</pre></div>
+</div>
 <p>Then, you can sniff the dns queries generated by you program by running in two different terminals the following commands:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">terminal1&gt; sudo ip netns exec network-jail tcpdump -w traffic.pcap</span>
 <span class="go">terminal2&gt; sudo ip netns exec network-jail ./executable</span>
 </pre></div>
 </div>
-<p>Analyse the traffic that you capture. You should be able to get the hostname of the server that is contacted by your program.</p>
+<p>Analyze the traffic that you capture with wireshark. You should be able to get the hostname of the server that is contacted by your program.</p>
 </div>
 <div class="section" id="communication-monitoring-with-tcpdump-inetsim">
 <h3>Communication Monitoring with Tcpdump &amp; InetSim<a class="headerlink" href="#communication-monitoring-with-tcpdump-inetsim" title="Permalink to this heading">#</a></h3>
-<p>The second step of this investigation will be to perform the same setup but also using <strong>inetsim</strong>. Thus, the last step is a bit modified:</p>
+<p>The second step of this investigation will be to perform the same setup but also using <code class="docutils literal notranslate"><span class="pre">inetsim</span></code>. Thus, the last step is a bit modified:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">terminal1&gt; sudo ip netns exec network-jail sudo inetsim</span>
 <span class="go">terminal2&gt; sudo ip netns exec network-jail tcpdump -w traffic.pcap</span>
 <span class="go">terminal3&gt; sudo ip netns exec network-jail ./executable</span>
 </pre></div>
 </div>
-<p>Analyse the traffic that you capture.</p>
+<p>Analyze the traffic that you capture with wireshark. Can you decrypt the first message send by the malware to the server?</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>HINT</strong>: You may want to disable the https server used by <code class="docutils literal notranslate"><span class="pre">inetsim</span></code> and setup a custom https server using <code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">s_server</span></code>. To do so, edit the file <code class="docutils literal notranslate"><span class="pre">/etc/inetsim/inetsim.conf</span></code> and comment the line starting with <code class="docutils literal notranslate"><span class="pre">start_service</span> <span class="pre">https</span></code>. Then, you can start your openssl server on port 443 using the command <code class="docutils literal notranslate"><span class="pre">openssl</span> <span class="pre">s_server</span> <span class="pre">-port</span> <span class="pre">443</span> <span class="pre">-accept</span> <span class="pre">443</span></code>. You can also check the limitations of wireshark regarding TLS decryption <a class="reference external" href="https://wiki.wireshark.org/TLS">here</a>.</p>
+</div>
 </div>
 </div>
 <div class="section" id="basic-dynamic-analysis-file-system-events-monitoring">
 <h2>Basic Dynamic Analysis – File System Events Monitoring<a class="headerlink" href="#basic-dynamic-analysis-file-system-events-monitoring" title="Permalink to this heading">#</a></h2>
-<p>In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file already studied in <strong>Part 1</strong>. To do so, you are expected to make use of a chrooted environement that you can monitor using <strong>iwatch</strong>. <strong>iwatch</strong> is a realtime filesystem monitoring program, based on <strong>inotify</strong> that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:</p>
+<p>In this part of the lab, you are asked to monitor any file system event, e.g. file access, creation, etc, issued by the binary file already studied in <strong>Part 1</strong>. To do so, you are expected to make use of a chrooted environment that you can monitor using <code class="docutils literal notranslate"><span class="pre">iwatch</span></code>. <code class="docutils literal notranslate"><span class="pre">iwatch</span></code> is a realtime filesystem monitoring program, based on <code class="docutils literal notranslate"><span class="pre">inotify</span></code> that allows you to track file system events. As such, you can monitor events in your sandbox using the following command:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">sudo iwatch -r /path/to/jail-directory</span>
 </pre></div>
 </div>
+<p>Analyze the file system events produced by the malware when connectivity is not restricted.</p>
 </div>
-<div class="section" id="additional-ressources">
-<h2>Additional Ressources<a class="headerlink" href="#additional-ressources" title="Permalink to this heading">#</a></h2>
+<div class="section" id="additional-resources">
+<h2>Additional Resources<a class="headerlink" href="#additional-resources" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>For more information on file system sandboxing techniques, their drawbacks, and some benchmarking, please read the following <a class="reference external" href="https://lwn.net/Articles/803890/">article</a>.</p></li>
 </ul>
@@ -340,7 +341,7 @@ sudo ip netns exec network-jail ip link set dev lo up</p>
                   <span>Previous</span>
                 </div>
                 
-                <div class="title">Part 1: Basic Static Analysis</div>
+                <div class="title">Part 1 – Basic Static Analysis</div>
                 
               </div>
             </a>
@@ -377,7 +378,7 @@ sudo ip netns exec network-jail ip link set dev lo up</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Part 2 – Basic Dynamic Analysis</a><ul>
-<li><a class="reference internal" href="#setup">Setup</a></li>
+<li><a class="reference internal" href="#dependencies">Dependencies</a></li>
 <li><a class="reference internal" href="#sandboxing">SandBoxing</a><ul>
 <li><a class="reference internal" href="#network-sandboxing">Network SandBoxing</a></li>
 <li><a class="reference internal" href="#filesystem-sandboxing">FileSystem SandBoxing</a></li>
@@ -389,7 +390,7 @@ sudo ip netns exec network-jail ip link set dev lo up</p>
 </ul>
 </li>
 <li><a class="reference internal" href="#basic-dynamic-analysis-file-system-events-monitoring">Basic Dynamic Analysis – File System Events Monitoring</a></li>
-<li><a class="reference internal" href="#additional-ressources">Additional Ressources</a></li>
+<li><a class="reference internal" href="#additional-resources">Additional Resources</a></li>
 </ul>
 </li>
 </ul>
