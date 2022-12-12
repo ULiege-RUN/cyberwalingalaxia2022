@@ -210,7 +210,7 @@
 <p>If you are not using the reference virtual machine, please go to Ghidra’s website (<a class="reference external" href="https://ghidra-sre.org/">https://ghidra-sre.org/</a>) and follow the installation instructions.</p>
 <div class="section" id="ghidra-setup">
 <h3>Ghidra setup<a class="headerlink" href="#ghidra-setup" title="Permalink to this heading">#</a></h3>
-<p>Ghidra should come pre-installed on the reference Kali virtual machine. If you are using something</p>
+<p>Ghidra should come pre-installed on the reference Kali virtual machine.</p>
 </div>
 </div>
 <div class="section" id="a-simple-start-the-empty-program">
@@ -250,7 +250,7 @@
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcc</span> <span class="o">-</span><span class="n">nostdlib</span> <span class="n">nolibc</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">nolibc</span>
 </pre></div>
 </div>
-<p>Which of these 2 binaries will get the smallest binary size? Why? Check your theory with <code class="docutils literal notranslate"><span class="pre">objdump</span></code> and/or <code class="docutils literal notranslate"><span class="pre">ghidra</span></code>. Could the <code class="docutils literal notranslate"><span class="pre">nolibc</span></code> binary be adapted to print “Hello world”. Could it do it the standard way using <code class="docutils literal notranslate"><span class="pre">printf</span></code>?</p>
+<p>Which of these 2 binaries will get the smallest text (code) size? Why? Check your theory with <code class="docutils literal notranslate"><span class="pre">objdump</span></code> and/or <code class="docutils literal notranslate"><span class="pre">ghidra</span></code>. Could the <code class="docutils literal notranslate"><span class="pre">nolibc</span></code> binary be adapted to print “Hello world”. Could it do it the standard way using <code class="docutils literal notranslate"><span class="pre">printf</span></code>?</p>
 </div>
 <div class="section" id="binary-analysis-with-ghidra">
 <h2>Binary analysis with Ghidra<a class="headerlink" href="#binary-analysis-with-ghidra" title="Permalink to this heading">#</a></h2>
@@ -290,11 +290,11 @@
 <span class="p">}</span>
 </pre></div>
 </div>
-<p>Compile it with <code class="docutils literal notranslate"><span class="pre">gcc</span></code>.:</p>
+<p>Compile it with <code class="docutils literal notranslate"><span class="pre">gcc</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">gcc</span> <span class="n">funcs</span><span class="o">.</span><span class="n">c</span> <span class="o">-</span><span class="n">o</span> <span class="n">func1</span>
 </pre></div>
 </div>
-<p>You can now drag the <code class="docutils literal notranslate"><span class="pre">func1</span></code> binary in you Ghidra project window to explore and analyze the result is contents. Have a look at the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
+<p>You can now drag the <code class="docutils literal notranslate"><span class="pre">func1</span></code> binary in your Ghidra project window to explore and analyze the result and its contents. Have a look at the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function.</p>
 <ul class="simple">
 <li><p>What do the function calls look like? How are arguments passed and how is the return value obtained?</p></li>
 <li><p>Where are the local variables stored? In particular, where is the array stored and in which form? How does that look in the decompiled code?</p></li>
@@ -324,7 +324,7 @@
 <li><p>Have a look at the <code class="docutils literal notranslate"><span class="pre">main()</span></code> function. What do you observe? Could the compiler have generated the same instructions for the main function if the array was passed as user input? Why (not)?</p></li>
 <li><p>Compare the <code class="docutils literal notranslate"><span class="pre">sum3()</span></code> and <code class="docutils literal notranslate"><span class="pre">sum()</span></code> functions. In the unoptimized binary, they were very similar. What technique was applied to <code class="docutils literal notranslate"><span class="pre">sum3()</span></code> that could not be applied to <code class="docutils literal notranslate"><span class="pre">sum()</span></code>? Explain.</p></li>
 <li><p>Compare <code class="docutils literal notranslate"><span class="pre">sum_rec()</span></code> with <code class="docutils literal notranslate"><span class="pre">sum()</span></code> and its unoptimized version. What is the most notable thing about the optimization(s) that were applied?</p></li>
-<li><p>Compare <code class="docutils literal notranslate"><span class="pre">sum()</span></code> and <code class="docutils literal notranslate"><span class="pre">sum_rec()</span></code> optimized and unoptimized versions in terms of readability? What is the impact of optimizations on the ease to perform binary analysis?</p></li>
+<li><p>Compare the optimized and unoptimized versions of <code class="docutils literal notranslate"><span class="pre">sum()</span></code> and <code class="docutils literal notranslate"><span class="pre">sum_rec()</span></code> in terms of readability. What is the impact of optimizations on the ease to perform binary analysis?</p></li>
 </ul>
 </div>
 </div>
