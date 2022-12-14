@@ -14,7 +14,7 @@ Setting Up a VM on a recent Mac (with M1 or M2 chips)
 Connect to a remote VM (Kali) already setup
 *******************************************
 
-We have made Kali Linux VMs available in a private network. In order to use them, it is necessary to connect to the private Wi-Fi first. The SSID is either ``Cyberwal1`` or ``Cyberwal2``. Once connected, open a terminal and connect via ssh with the following command::
+We have made Kali Linux VMs available in a private network. In order to use them, it is necessary to connect to the private Wi-Fi first. The SSID is either ``Cyberwal1`` or ``Cyberwal2`` or ``Cyberwal3``. Once connected, open a terminal and connect via ssh with the following command::
 
   ssh student@192.168.31.4
 
